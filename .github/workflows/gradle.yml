@@ -13,32 +13,35 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: --no-daemon
+    - name: Cache Gradle wrapper
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/wrapper/
+          ~/.gradle/caches/
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
 
-      - name: Build with Gradle Wrapper
-        run: ./gradlew build
+    - name: Setup Gradle Wrapper
+      run: ./gradlew wrapper
 
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v4.3.3
-        with:
-          name: build-artifact
-          path: build/libs/*.jar
-          if-no-files-found: error
-          retention-days: 30
-          compression-level: 6
-          overwrite: true
+    - name: Build with Gradle Wrapper
+      run: ./gradlew build
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: build/libs
 
   dependency-submission:
     runs-on: ubuntu-latest
@@ -46,14 +49,13 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-      - name: Generate and submit dependency graph
-        uses: gradle/gradle-dependency-submission-action@v1
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@v3.1.0
