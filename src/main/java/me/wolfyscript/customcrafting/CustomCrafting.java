@@ -254,7 +254,7 @@ public class CustomCrafting extends JavaPlugin {
 
         getLogger().info("Registering Custom Block Data");
         var customBlockData = api.getRegistries().getCustomBlockData();
-        customBlockData.register(CauldronBlockData.ID, CauldronBlockData.class);
+        // customBlockData.register(CauldronBlockData.ID, CauldronBlockData.class);
 
         getLogger().info("Registering Result Extensions");
         var resultExtensions = getRegistries().getRecipeResultExtensions();
@@ -320,7 +320,7 @@ public class CustomCrafting extends JavaPlugin {
         recipeTypes.register(RecipeType.CAMPFIRE);
         recipeTypes.register(RecipeType.ANVIL);
         recipeTypes.register(RecipeType.STONECUTTER);
-        recipeTypes.register(RecipeType.CAULDRON);
+        // recipeTypes.register(RecipeType.CAULDRON);
         recipeTypes.register(RecipeType.GRINDSTONE);
         recipeTypes.register(RecipeType.BREWING_STAND);
         recipeTypes.register(RecipeType.SMITHING);
@@ -403,7 +403,7 @@ public class CustomCrafting extends JavaPlugin {
         pM.registerEvents(new CraftListener(this), this);
         pM.registerEvents(new FurnaceListener(this, cookingManager), this);
         pM.registerEvents(new AnvilListener(this), this);
-        pM.registerEvents(new CauldronListener(this), this);
+        // pM.registerEvents(new CauldronListener(this), this);
         pM.registerEvents(new EliteWorkbenchListener(api), this);
         pM.registerEvents(new GrindStoneListener(this), this);
         pM.registerEvents(new BrewingStandListener(api, this), this);
@@ -463,7 +463,7 @@ public class CustomCrafting extends JavaPlugin {
         invAPI.registerCluster(new ClusterItemCreator(invAPI, this));
         invAPI.registerCluster(new ClusterPotionCreator(invAPI, this));
         invAPI.registerCluster(new ClusterRecipeBookEditor(invAPI, this));
-        invAPI.registerCluster(new CauldronWorkstationCluster(invAPI, this));
+        // invAPI.registerCluster(new CauldronWorkstationCluster(invAPI, this));
     }
 
     public ConfigHandler getConfigHandler() {
